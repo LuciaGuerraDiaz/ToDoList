@@ -54,11 +54,21 @@ function App() {
 
 return (
   <div id="center">
-    <h1>To Do List</h1>
-    <Form onAddTask={handleAddTask} />
-    <Filter filter={filter} onFilterChange={setFilter} />
+    <h1>To Do</h1>
+    <span>
+      <h2>Transforma ideas en acciones</h2>
+    </span>
 
-    <p>{message[filter]}</p>
+    <div className="controls-conteiner">
+    <Form 
+      onAddTask={handleAddTask} 
+      filter={filter} 
+      onFilterChange={setFilter} 
+    />
+    
+    </div>
+
+    <h2>{message[filter]}</h2>
 
     <TodoList
       tasks={filteredTasks}

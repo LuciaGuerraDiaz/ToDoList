@@ -1,22 +1,39 @@
 import { useState } from 'react';
+import Filter from './Filter';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
-export default function Form({ onAddTask }) {
-
+export default function Form({ onAddTask, filter, onFilterChange }) {
   const [taskText, setTaskText] = useState('');
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // 
+    e.preventDefault();
 
-    // Validación 
-    if (!taskText.trim()) return;
+    if (!taskText.trim()) {
+      setError('Por favor, ingresa un texto para la tarea');
+      setSuccessMessage('');
+      return;
+    }
 
-    //Agrega
     if (onAddTask) {
       onAddTask(taskText.trim());
     }
 
-    // Limpia el input 
     setTaskText('');
+    setError('');
+    setSuccessMessage('¡Tarea agregada con éxito!');
+
+    setTimeout(() => {
+      setSuccessMessage('');
+    }, 3000);
+  };
+
+  const handleChange = (e) => {
+    setTaskText(e.target.value);
+    if (error) setError('');
   };
 
   return (
@@ -25,9 +42,32 @@ export default function Form({ onAddTask }) {
         type="text"
         placeholder="Agrega una tarea a la lista"
         value={taskText}
-        onChange={(e) => setTaskText(e.target.value)} // Actualiza el estado con cada tecla
+        onChange={handleChange}
+        className={`task-input ${error ? 'input-error' : ''}`}
       />
-      <button type="submit">Add Task</button>
+
+      {/* Mensaje de Error (usa faPenToSquare) */}
+      {error && (
+        <span className="error-text">
+          <FontAwesomeIcon icon={faPenToSquare} />
+          {error}
+        </span>
+      )}
+
+      {/* Mensaje de Éxito (usa faCheckCircle) */}
+      {successMessage && (
+        <span className="success-text">
+          <FontAwesomeIcon icon={faCheckCircle} />
+          {successMessage}
+        </span>
+      )}
+
+      <div className="buttons-row">
+        <button type="submit" className="btn-add">
+          Agrega tu tarea
+        </button>
+        <Filter filter={filter} onFilterChange={onFilterChange} className="btn-filter"/>
+      </div>
     </form>
   );
 }
