@@ -1,11 +1,12 @@
 import React from 'react';
-import { TaskItem } from './TaskItem'; // Importas el ítem individual que creamos antes
+import { TaskItem } from './TaskItem'; // Importa el ítem individual
 
-export const TodoList = ({ tasks, onToggleComplete, onDelete }) => {
+
+export const TodoList = ({ tasks, emptyMessage, onToggleComplete, onDelete }) => {
   return (
     <div className="todo-list">
       {tasks.length === 0 ? (
-        <p>No hay tareas pendientes</p>
+        <p>{emptyMessage}</p>
       ) : (
         tasks.map((singleTask) => (
           <TaskItem

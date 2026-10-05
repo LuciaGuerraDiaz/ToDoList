@@ -1,10 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Form from './components/Form'; // Input de tareas
 import { TodoList } from './components/TodoList';
 import Filter from './components/Filter';
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(() => {
+  const saved = localStorage.getItem('tasks');
+  return saved ? JSON.parse(saved) : [];
+});
+
+  const [filter, setFilter] = useState('all');
+  useEffect(() => {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   const handleAddTask = (text) => {
     const newTask = {
@@ -25,26 +33,41 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  const [filter, setFilter] = useState('all');
 
-    const filteredTasks = tasks.filter((task) => {
+  const filteredTasks = tasks.filter((task) => {
   if (filter === 'completed') return task.completed;
   if (filter === 'pending') return !task.completed;
   return true; // 'all'
   });
 
-  return (
-<div id="center">
-      <h1>To Do List</h1>
-      <Form onAddTask={handleAddTask} />
-      <Filter filter={filter} onFilterChange={setFilter} />
-      <TodoList
-        tasks={filteredTasks} 
-        onToggleComplete={handleToggleComplete} 
-        onDelete={handleDeleteTask}
-      />
-    </div>
-  );
+  const message = {
+  all: 'Este es el listado de tus tareas',
+  completed: 'Este es el listado de tareas completadas',
+  pending: 'Este es el listado de tareas incompletas',
+  };
+
+  const emptyMessages = {
+  all: 'Todavía no agregaste tareas',
+  completed: 'No hay tareas completadas',
+  pending: 'No hay tareas incompletas',
+  };
+
+return (
+  <div id="center">
+    <h1>To Do List</h1>
+    <Form onAddTask={handleAddTask} />
+    <Filter filter={filter} onFilterChange={setFilter} />
+
+    <p>{message[filter]}</p>
+
+    <TodoList
+      tasks={filteredTasks}
+      emptyMessage={emptyMessages[filter]}
+      onToggleComplete={handleToggleComplete}
+      onDelete={handleDeleteTask}
+    />
+  </div>
+);
 }
 
 export default App;
