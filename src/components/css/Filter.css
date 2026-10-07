@@ -1,0 +1,21 @@
+/* ---------- Filtro ---------- */
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.75rem;
+  margin: 2rem;
+  color: var(--color-text-muted);
+}
+
+.filter label {
+  white-space: nowrap;
+}
+
+.filter select {
+  padding: 10px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}

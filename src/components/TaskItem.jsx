@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaCheck, FaTrash } from 'react-icons/fa'
+import './css/TaskItem.css'
 export const TaskItem = ({eachItem, onToggleComplete, onDelete, }) => {
     return (
     <div className = "task-item">
