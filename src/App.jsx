@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import Form from './components/Form'; // Input de tareas
 import { TodoList } from './components/TodoList';
 import Filter from './components/Filter';
+import confetti from 'canvas-confetti';
+import { ScrollTitle } from './components/ScrollTitle';
 
 function App() {
   const [tasks, setTasks] = useState(() => {
@@ -25,12 +27,24 @@ function App() {
     }; 
     
   const handleToggleComplete = (id) => {
+    const task = tasks.find((t) => t.id === id);
+    if (task && !task.completed) {
+    confetti({ particleCount: 120, spread: 70, origin: { y: 0.7 } });
+    }
     setTasks(
       tasks.map((task) =>
         task.id === id ? { ...task, completed: !task.completed } : task));
     };
   const handleDeleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  const handleEditTask = (id, newText) => {
+  setTasks(
+    tasks.map((task) =>
+      task.id === id ? { ...task, text: newText } : task
+    )
+  );
   };
 
 
@@ -41,9 +55,9 @@ function App() {
   });
 
   const message = {
-  all: 'Este es el listado de tus tareas',
-  completed: 'Este es el listado de tareas completadas',
-  pending: 'Este es el listado de tareas incompletas',
+  all: 'Listado de tareas',
+  completed: 'Felicitaciones estas son las tareas completadas',
+  pending: 'Tareas incompletas',
   };
 
   const emptyMessages = {
@@ -54,20 +68,23 @@ function App() {
 
 return (
   <div id="center">
-    <h1>To Do</h1>
+    <h1>Hoy quiero hacer...</h1>
     <span>
-      <h2>Transforma ideas en acciones</h2>
+      <h2><ScrollTitle /></h2>
     </span>
 
     <div className="controls-conteiner">
     <Form 
       onAddTask={handleAddTask} 
-      filter={filter} 
       onFilterChange={setFilter} 
     />
-    
     </div>
 
+     <hr className="divider" />
+    
+    <Filter filter={filter} onFilterChange={setFilter} />
+
+    
     <h2>{message[filter]}</h2>
 
     <TodoList

@@ -1,0 +1,27 @@
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.marquee-track {
+  display: inline-block;
+  animation: marquee 330s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+  cursor: pointer;
+}
+
+.marquee-item {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-right: 8rem;
+  
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}

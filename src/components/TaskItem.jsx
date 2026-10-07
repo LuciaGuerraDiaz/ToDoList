@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaCheck, FaTrash } from 'react-icons/fa'
-export const TaskItem = ({eachItem, onToggleComplete, onDelete}) => {
+export const TaskItem = ({eachItem, onToggleComplete, onDelete, }) => {
     return (
     <div className = "task-item">
         <span
@@ -8,7 +8,9 @@ export const TaskItem = ({eachItem, onToggleComplete, onDelete}) => {
             textDecoration: eachItem.completed ? 'line-through' : 'none',
             color: eachItem.completed ? '#8888' : '#000'
         }}
-        >
+        >   
+        </span>
+        <span className={`task-text ${eachItem.completed ? 'completed' : ''}`}>
             {eachItem.text}
         </span>
         

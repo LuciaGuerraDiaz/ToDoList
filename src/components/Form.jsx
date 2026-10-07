@@ -13,7 +13,7 @@ export default function Form({ onAddTask, filter, onFilterChange }) {
     e.preventDefault();
 
     if (!taskText.trim()) {
-      setError('Por favor, ingresa un texto para la tarea');
+      setError('Por favor, ingresá un texto para la tarea');
       setSuccessMessage('');
       return;
     }
@@ -28,7 +28,7 @@ export default function Form({ onAddTask, filter, onFilterChange }) {
 
     setTimeout(() => {
       setSuccessMessage('');
-    }, 3000);
+    }, 2000);
   };
 
   const handleChange = (e) => {
@@ -38,35 +38,36 @@ export default function Form({ onAddTask, filter, onFilterChange }) {
 
   return (
     <form onSubmit={handleSubmit} className="task-form">
-      <input
-        type="text"
-        placeholder="Agrega una tarea a la lista"
-        value={taskText}
-        onChange={handleChange}
-        className={`task-input ${error ? 'input-error' : ''}`}
-      />
+      <div className="form-row">
+        <input
+          type="text"
+          placeholder="Ingresá una tarea a la lista"
+          value={taskText}
+          onChange={handleChange}
+          className={`task-input ${error ? 'input-error' : ''}`}
+        />
 
-      {/* Mensaje de Error (usa faPenToSquare) */}
-      {error && (
-        <span className="error-text">
-          <FontAwesomeIcon icon={faPenToSquare} />
-          {error}
-        </span>
-      )}
+          <button type="submit" className="btn-add">
+            Agregar
+          </button>
+      </div>
 
-      {/* Mensaje de Éxito (usa faCheckCircle) */}
-      {successMessage && (
-        <span className="success-text">
-          <FontAwesomeIcon icon={faCheckCircle} />
-          {successMessage}
-        </span>
-      )}
+        {/* Mensaje de Error (usa faPenToSquare) */}
+      <div className="form-message">
+        {error && (
+          <span className="error-text">
+            <FontAwesomeIcon icon={faPenToSquare} />
+            {error}
+          </span>
+        )}
 
-      <div className="buttons-row">
-        <button type="submit" className="btn-add">
-          Agrega tu tarea
-        </button>
-        <Filter filter={filter} onFilterChange={onFilterChange} className="btn-filter"/>
+        {/* Mensaje de Éxito (usa faCheckCircle) */}
+        {successMessage && (
+          <span className="success-text">
+            <FontAwesomeIcon icon={faCheckCircle} />
+            {successMessage}
+          </span>
+        )}
       </div>
     </form>
   );
